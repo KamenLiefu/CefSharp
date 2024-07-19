@@ -1,206 +1,84 @@
-# CefSharp
-Cefharp audo and video playback compile,generate the correspondig dll files,so as to support project development.
-It is recommended to compile at least **`16G of RAM`** and at least **`250G of SSD`**.The script uses **`the E drive`** as an example, and you need to manually **`create the cef directory`** on the E drive.It is **`prohibited to charge users`** for downloading by **`publishing other platforms after reprinting`**.
-```
-md E:\cef\chromium\src
-```
-# 1.Version Selection
-**Configure web address:**</p>
-https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding.md</p>
-|Date|Release Branch|Chromium Version|	CEF Version	Windows Build Requirements|	
-|:--:|:--:|:--:|:--:|
-|Jun 2024|	6533|	127|	127	Win 10+ deployment, Win 10+ build system w/ VS2022 17.9.2, Win 10.0.22621 SDK, Ninja|
-|May 2024|	6478|	126|	126	Win 10+ deployment, Win 10+ build system w/ VS2022 17.9.2, Win 10.0.22621 SDK, Ninja|
-|Apr 2024|	6422|	125|	125	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Mar 2024|	6367|	124|  124	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Feb 2024|	6312|	123|	123	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja	|
-|Jan 2024|	6261|	122|	122	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja	|
-|Dec 2023|	6167|	121|	121	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|	
-|Nov 2023|	6099|	120|	120	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja	|
-|Oct 2023|	6045|	119|	119	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Sep 2023|	5993|	118|	118	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|	
-|Aug 2023|	5938|	117|	117	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|	
-|Jun 2023|	5845|	116|	116	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|	
-|May 2023|	5790|	115|	115	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|	
-|Apr 2023|	5735|	114|	114	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Mar 2023|	5672|	113|	113	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Feb 2023|	5615|	112|	112	Win 10+ deployment, Win 10+ build system w/ VS2022 17.5+, Win 10.0.22621 SDK, Ninja|
-|Jan 2023|	5563|	111|	111	Win 10+ deployment, Win 10+ build system w/ VS2019 16.11.13+, Win 10.0.20348 SDK, Ninja|	
-|Dec 2022|	5481|	110|	110	Win 10+ deployment, Win 10+ build system w/ VS2019 16.11.13+, Win 10.0.20348 SDK, Ninja|
-|Nov 2022|	5414|	109|	109	Win 7+ deployment, Win 10+ build system w/ VS2019 16.11.13+, Win 10.0.20348 SDK, Ninja|
+The Chromium Embedded Framework (CEF) is a simple framework for embedding Chromium-based browsers in other applications.
 
-**Selcet the required version and configure the environment.**</p>
-For example:**`install vs2022`**,**`select the appropriate sdk,10.0.22621.2428`**。</p>
-</p>
+# Quick Links
 
-**`VS2022 requires the selection of C++.`**
+* Project Page - https://bitbucket.org/chromiumembedded/cef
+* Tutorial - https://bitbucket.org/chromiumembedded/cef/wiki/Tutorial
+* General Usage - https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage
+* Master Build Quick-Start - https://bitbucket.org/chromiumembedded/cef/wiki/MasterBuildQuickStart
+* Branches and Building - https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding
+* Announcements - https://groups.google.com/forum/#!forum/cef-announce
+* Support Forum - http://www.magpcss.org/ceforum/
+* Issue Tracker - https://github.com/chromiumembedded/cef/issues
+* C++ API Docs - [Stable release docs](https://cef-builds.spotifycdn.com/docs/stable.html) / [Beta release docs](https://cef-builds.spotifycdn.com/docs/beta.html)
+* Downloads - https://cef-builds.spotifycdn.com/index.html
+* Donations - http://www.magpcss.org/ceforum/donate.php
 
-![image](https://github.com/user-attachments/assets/ed54ecbb-3a61-4b13-9269-ff8796b6bcfa)
+# Introduction
 
-# 2.Internet Choose
-Choose the appropriate network to access the Internet, and depending on the Internet tool you can set up a proxy.
-E.g. It is recommended to manually execute it every time you open cmd.</p>
-```
-set HTTP_PROXY=http://127.0.0.1:7890
-set HTTPS_PROXY=http://127.0.0.1:7890
-```
-# 3.Environment initialization
-Run cmd as an administrator and enter the directory where the batch script is located
-```markdown
-:: Disable automatic update of depot_tools
-setx DEPOT_TOOLS_UPDATE "0"
+CEF is a BSD-licensed open source project founded by Marshall Greenblatt in 2008 and based on the [Google Chromium](http://www.chromium.org/Home) project. Unlike the Chromium project itself, which focuses mainly on Google Chrome application development, CEF focuses on facilitating embedded browser use cases in third-party applications. CEF insulates the user from the underlying Chromium and Blink code complexity by offering production-quality stable APIs, release branches tracking specific Chromium releases, and binary distributions. Most features in CEF have default implementations that provide rich functionality while requiring little or no integration work from the user. There are currently over 100 million installed instances of CEF around the world embedded in products from a wide range of companies and industries. A partial list of companies and products using CEF is available on the [CEF Wikipedia page](http://en.wikipedia.org/wiki/Chromium_Embedded_Framework#Applications_using_CEF). Some use cases for CEF include:
 
-:: Using a locally installed version of Visual Studio
-setx DEPOT_TOOLS_WIN_TOOLCHAIN "0"
+* Embedding an HTML5-compliant Web browser control in an existing native application.
+* Creating a light-weight native “shell” application that hosts a user interface developed primarily using Web technologies.
+* Rendering Web content “off-screen” in applications that have their own custom drawing frameworks.
+* Acting as a host for automated testing of existing Web properties and applications.
 
-:: GN Build Tool
-set CEF_USE_GN=1
-:: Creating a Project with VS2022
-set GN_ARGUMENTS=--ide=vs2022 --sln=cef --filters=//cef/*
-:: Use the official build and add ffmpeg audio/video decoding
-set GN_DEFINES=is_official_build=true proprietary_codecs=true ffmpeg_branding=Chrome chrome_pgo_phase=0
-set GYP_DEFINES=buildtype=Official
+CEF supports a wide range of programming languages and operating systems and can be easily integrated into both new and existing applications. It was designed from the ground up with both performance and ease of use in mind. The base framework includes C and C++ programming interfaces exposed via native libraries that insulate the host application from Chromium and Blink implementation details. It provides close integration between the browser and the host application including support for custom plugins, protocols, JavaScript objects and JavaScript extensions. The host application can optionally control resource loading, navigation, context menus, printing and more, while taking advantage of the same performance and HTML5 technologies available in the Google Chrome Web browser.
 
-set GYP_GENERATORS=ninja,msvs-ninja
-set GYP_MSVS_VERSION=2022
-set CEF_ARCHIVE_FORMAT=tar.bz2
-set VS_CRT_ROOT=D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.40.33807\crt
-set WIN_CUSTOM_TOOLCHAIN=1
+Numerous individuals and organizations contribute time and resources to support CEF development, but more involvement from the community is always welcome. This includes support for both the core CEF project and external projects that integrate CEF with additional programming languages and frameworks (see the "External Projects" section below). If you are interested in donating time to help with CEF development please see the "Helping Out" section below. If you are interested in donating money to support general CEF development and infrastructure efforts please visit the [CEF Donations](http://www.magpcss.org/ceforum/donate.php) page.
 
-set CEF_VCVARS=none
-set GYP_MSVS_OVERRIDE_PATH=D:\Program Files\Microsoft Visual Studio\2022\Professional
-set MSVC_VERSION=14.40.33807
-set SDK_ROOT=D:\Program Files (x86)\Windows Kits\10
-set WINDOWSSDKDIR=D:\Program Files (x86)\Windows Kits\10
-set SDK_VERSION=10.0.22621.0
+# Getting Started
 
-for /f "tokens=3,*" %i in ('reg query HKCU\Environment /v Path') do setx Path "E:\cef\depot_tools\;%i%j"
-```
-**`Command line execution 0.environment_init.bat`**
-# 4.cef download
-Execute according to the selected branch, here is the 6422 branch as an example
-```markdown
-cd E:\cef
-::Clone the source code and switch to the 6422 branch
-git clone https://bitbucket.org/chromiumembedded/cef.git -b 6422
+Users new to CEF development should start by reading the [Tutorial](https://bitbucket.org/chromiumembedded/cef/wiki/Tutorial) Wiki page for an overview of CEF usage and then proceed to the [GeneralUsage](https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage) Wiki page for a more in-depth discussion or architectural and usage issues. Complete API documentation is available [here](https://cef-builds.spotifycdn.com/docs/stable.html). CEF support and related discussion is available on the [CEF Forum](http://www.magpcss.org/ceforum/).
 
-```
-**`Command line execution 1.downing_cef.bat`**
+# Binary Distributions
 
-# 5.chromium download
-Check the version according to CHROMIUM_BUILD_COMPATIBILITY.txt of the selected branch.
-```
-# The Chromium Embedded Framework (CEF) project is built on top of the Chromium
-# project source tree. Chromium should be updated to the URL and revision listed
-# below before building CEF. Chromium compatibility information for older CEF
-# revisions is available by viewing this file's change history.
-#
-# Instructions for building CEF are available at:
-# https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding
+Binary distributions, which include all files necessary to build a CEF-based application, are available on the [Downloads](https://cef-builds.spotifycdn.com/index.html) page. Binary distributions are stand-alone and do not require the download of CEF or Chromium source code. Symbol files for debugging binary distributions of libcef can also be downloaded from the above links.
 
-{
-  'chromium_checkout': 'refs/tags/125.0.6422.142',
-  'depot_tools_checkout': '3e4ab13934'
-}
+# Source Distributions
 
-```
-```markdown
-cd E:\cef\chromium
-::  (cef 6422 branch corresponds to chromiun tag: 125.0.6422.142)
-git clone https://chromium.googlesource.com/chromium/src.git -b 125.0.6422.142 --depth 1
+The CEF project is an extension of the Chromium project. CEF maintains development and release branches that track Chromium branches. CEF source code can be downloaded, built and packaged manually or with automated tools. Visit the [BranchesAndBuilding](https://bitbucket.org/chromiumembedded/cef/wiki/BranchesAndBuilding) Wiki page for more information.
 
-```
-**`Command line execution 2.downing_chromium.bat`**
-# 6.depot_tools download
-```markdown
-cd E:\cef
-:: Download depot_tools tool
-git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-cd E:\cef\depot_tools
-:: Temporary permission to update
-set DEPOT_TOOLS_UPDATE=1
-:: depot_tools batch script Update_Depot_tools.bat
-update_depot_tools.bat
-:: prohibit updating
-set DEPOT_TOOLS_UPDATE=0
-:: checkout,(CEF 6422 branch corresponds to depot_tools commit ID: 3e4ab13934)
-checkout 3e4ab13934
-```
-**`Command line execution 3.downing_depot_tools`**
-# 7.Synchronize 
-```markdown
-cd E:\cef\chromium
+# External Projects
 
-:: Create the .gclient file with the command
-gclient config  https://chromium.googlesource.com/chromium/src.git --unmanaged
+The base CEF framework includes support for the C and C++ programming languages. Thanks to the hard work of external maintainers CEF can integrate with a number of other programming languages and frameworks. These external projects are not maintained by CEF so please contact the respective project maintainer if you have any questions or issues.
 
-gclient sync --nohooks --no-history
+* .Net (CEF3) - https://github.com/cefsharp/CefSharp
+* .Net (CEF1) - https://bitbucket.org/fddima/cefglue
+* .Net/Mono (CEF3) - https://gitlab.com/xiliumhq/chromiumembedded/cefglue
+* Delphi - https://github.com/hgourvest/dcef3
+* Delphi - https://github.com/salvadordf/CEF4Delphi
+* Go - https://github.com/CzarekTomczak/cef2go
+* Go - https://github.com/energye/energy
+* Java - https://bitbucket.org/chromiumembedded/java-cef
+* Python - http://code.google.com/p/cefpython/
 
-set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+If you're the maintainer of a project not listed above and would like your project listed here please either post to the [CEF Forum](http://www.magpcss.org/ceforum/) or contact Marshall directly.
 
-@echo "gclient runhooks"
-gclient runhooks
+# Helping Out
 
-```
-**`Command line execution 4.chromium_client`**
+CEF is still very much a work in progress. Some ways that you can help out:
 
-# 8.Build Project
-```markdown
-cd E:\cef\chromium\src\cef
-set CEF_USE_GN=1
-set GN_ARGUMENTS=--ide=vs2022 --sln=cef --filters=//cef/*
-set GN_DEFINES=is_official_build=true proprietary_codecs=true ffmpeg_branding=Chrome chrome_pgo_phase=0
-set GYP_DEFINES=buildtype=Official
-set GYP_GENERATORS=ninja,msvs-ninja
-set GYP_MSVS_VERSION=2022
-set CEF_ARCHIVE_FORMAT=tar.bz2
-set VS_CRT_ROOT=D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.40.33807\crt
-set WIN_CUSTOM_TOOLCHAIN=1
-::set CEF_VCVARS=none
-set GYP_MSVS_OVERRIDE_PATH=D:\Program Files\Microsoft Visual Studio\2022\Professional
-set MSVC_VERSION=14.40.33807
-set SDK_ROOT=D:\Program Files (x86)\Windows Kits\10
-set WINDOWSSDKDIR=D:\Program Files (x86)\Windows Kits\10
-set SDK_VERSION=10.0.22621.0
-@REM compiling 64-bit call VS script has problems, the following change to set the path manually
-@REM call "D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64
-set INCLUDE=%SDK_ROOT%\Include\%SDK_VERSION%\um;%SDK_ROOT%\Include\%SDK_VERSION%\ucrt;%SDK_ROOT%\Include\%SDK_VERSION%\shared;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\include;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\atlmfc\include;%INCLUDE%
-set LIB=%SDK_ROOT%\Lib\%SDK_VERSION%\um\x64;%SDK_ROOT%\10\Lib\%SDK_VERSION%\ucrt\x64;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\lib\x64;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\atlmfc\lib\x64;%LIB%
-set PATH=%SDK_ROOT%\bin\%SDK_VERSION%\x64;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\bin\HostX64\x64;%GYP_MSVS_OVERRIDE_PATH%\VC\Tools\MSVC\%MSVC_VERSION%\bin\HostX64\x64;%GYP_MSVS_OVERRIDE_PATH%\VC\Redist\MSVC\14.40.33807\x64\Microsoft.VC143.CRT;%PATH%
-:: create project
-call cef_create_projects.bat
-```
-**`Command line execution 5.build_project`**
-# 9.Cef Compilation
-According to the computer time, the relative compilation time is longer, 5~10 hours, or even longer.
-```markdown
-cd E:\cef\chromium\src
-ninja -C out\Release_GN_x64_sandbox cef_sandbox
-ninja -C out/Release_GN_x64 cef
-```
-**`Command line execution 6.cef_compile`**
-# 10.Package Generation
-```markdown
-cd E:\cef\chromium\src\cef\tools
-set CEF_VCVARS=none
-set CEF_ARCHIVE_FORMAT=tar.bz2
-::  --minimal
-make_distrib.bat --ninja-build --no-docs --x64-build --no-symbols --minimal
-```
-**`Command line execution 7.pack-x64`**
-# 11.Result Showcase
-**Test the site with the generated dll**
-<p/>
-	
-![Honeycam 2024-07-20 00-23-20](https://github.com/user-attachments/assets/36cc90bb-35f0-4033-b692-f4b6d7a422d3)
-<p/>
-	
-**Tests if h264 is on, i.e. audio/video playback.**
-<p/>
-	
-![Honeycam 2024-07-20 00-18-13](https://github.com/user-attachments/assets/c1e35bc8-61ff-4ebd-81ec-57dd00b8a3e2)
+\- Vote for issues in the [CEF issue tracker](https://github.com/chromiumembedded/cef/issues) that are important to you. This helps with development prioritization.
 
+\- Report any bugs that you find or feature requests that are important to you. Make sure to first search for existing issues before creating new ones. Please use the [CEF Forum](http://magpcss.org/ceforum) and not the issue tracker for usage questions. Each CEF issue should:
 
+* Include the CEF revision or binary distribution version.
+* Include information about your OS and compiler version.
+* If the issue is a bug please provide detailed reproduction information.
+* If the issue is a feature please describe why the feature is beneficial.
 
+\- Write unit tests for new or existing functionality.
 
+\- Pull requests and patches are welcome. View open issues in the [CEF issue tracker](https://github.com/chromiumembedded/cef/issues) or search for TODO(cef) in the source code for ideas.
 
+If you would like to contribute source code changes to CEF please follow the below guidelines:
+
+\- Create or find an appropriate issue for each distinct bug, feature or change. 
+
+\- Submit a [pull request](https://bitbucket.org/chromiumembedded/cef/wiki/ContributingWithGit) or create a patch with your changes and attach it to the CEF issue. Changes should:
+
+* Be submitted against the current [CEF master branch](https://bitbucket.org/chromiumembedded/cef/src/?at=master) unless explicitly fixing a bug in a CEF release branch.
+* Follow the style of existing CEF source files. In general CEF uses the [Chromium C++ style guide](https://chromium.googlesource.com/chromium/src/+/master/styleguide/c++/c++.md).
+* Include new or modified unit tests as appropriate to the functionality.
+* Not include unnecessary or unrelated changes.
