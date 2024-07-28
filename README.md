@@ -1,5 +1,5 @@
 # CefSharp
-Cefharp audo and video playback compile,generate the correspondig dll files,so as to support project development.
+Cefharp audio and video playback compile,generate the correspondig dll files,so as to support project development.
 It is recommended to compile at least **`16G of RAM`** and at least **`250G of SSD`**.The script uses **`the E drive`** as an example, and you need to manually **`create the cef directory`** on the E drive.It is **`prohibited to charge users`** for downloading by **`publishing other platforms after reprinting`**.
 ```
 md E:\cef\chromium\src
